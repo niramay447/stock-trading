@@ -1,5 +1,5 @@
 from typing import Dict
-
+from twilio.rest import Client
 import requests
 
 STOCK_NAME = "TSLA"
@@ -7,6 +7,8 @@ COMPANY_NAME = "Tesla Inc"
 
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
+TWILIO_SID = ""
+TWILIO_AUTH_TOKEN = ""
 
 STOCK_API_KEY = ""
 NEWS_API_KEY = ""
@@ -52,14 +54,15 @@ if diff_percent > 1 :
     ## STEP 3: Use twilio.com/docs/sms/quickstart/python
 
     #to send a separate message with each article's title and description to your phone number.
-
-#TODO 8. - Create a new list of the first 3 article's headline and description using list comprehension.
-
     formatted_articles = [f"Headline: {article['title']}. \Brief: {article ['description']}" for article in three_articles]
-#TODO 9. - Send each article as a separate message via Twilio.
+    client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
 
-
-
+    for article in formatted_articles:
+        message = client.messages.create(
+            body = article,
+            from_= "+17372011434",
+            to= "+919726800369"
+        )
 #Optional TODO: Format the message like this:
 """
 TSLA: 🔺2%
